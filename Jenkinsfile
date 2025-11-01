@@ -5,6 +5,10 @@ pipeline {
         pollSCM('* * * * *')
     }
 
+    environment {
+        IMAGE = 'notes-app'
+    }
+
     stages {
         
         stage("code pull") {
@@ -18,7 +22,7 @@ pipeline {
         stage("build") {
             steps {
                 echo "This is the build stage"
-                sh 'docker build -t notes-app .'
+                sh 'docker build -t ${IMAGE} .'
             }
         }
 
