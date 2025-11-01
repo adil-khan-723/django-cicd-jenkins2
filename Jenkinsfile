@@ -49,7 +49,7 @@ pipeline {
                         else
                             git clone https://github.com/adil-khan-723/django-cicd-jenkins2.git
                         fi 
-                        docker system prune -a && \
+                        docker system prune -af && \
                         cd $DIR && \
                         docker compose down && \
                         docker compose up --build -d
