@@ -16,10 +16,12 @@ pipeline {
         }
 
         stage("build") {
-            echo "This is the build stage"
-            sh 'docker build -t notes-app .'
+            steps {
+                echo "This is the build stage"
+                sh 'docker build -t notes-app .'
+            }
         }
 
-        
+
     }
 }
