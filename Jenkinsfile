@@ -8,6 +8,7 @@ pipeline {
     environment {
         DOCKER = credentials('DockerHub')
         IMAGE = 'notes-app'
+        SERVER_IP = '3.109.211.167'
     }
 
     stages {
@@ -35,6 +36,14 @@ pipeline {
                 sh "docker image tag ${IMAGE}:latest ${DOCKER_USR}/${IMAGE}"
                 echo "image tagged as: ${DOCKER_USR}/${IMAGE}"
                 sh "docker push ${DOCKER_USR}/${IMAGE}"
+            }
+        }
+
+        stage("deploy to cloud"){
+            steps{
+                sshagent(credentials: ['ssh']){
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@${SERVER_IP} echo 'ssh successful this is $USER'"
+                }
             }
         }
     }
