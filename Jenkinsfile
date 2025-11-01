@@ -9,6 +9,7 @@ pipeline {
         DOCKER = credentials('DockerHub')
         IMAGE = 'notes-app'
         SERVER_IP = '3.109.211.167'
+        DIR = '/home/ubuntu/django-cicd-jenkins2'
     }
 
     stages {
@@ -42,9 +43,29 @@ pipeline {
         stage("deploy to cloud"){
             steps{
                 sshagent(credentials: ['ssh']){
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@${SERVER_IP} echo 'ssh successful this is $USER'"
+                    sh """ssh -o StrictHostKeyChecking=no ubuntu@${SERVER_IP} '
+                        if [ -d $DIR ]; then
+                            cd $DIR && git pull
+                        else
+                            git clone https://github.com/adil-khan-723/django-cicd-jenkins2.git
+                        fi 
+                        docker system prune -a && \
+                        cd $DIR && \
+                        docker compose down && \
+                        docker compose up --build -d
+                        '
+                    """
+                    echo "deploy successful"
                 }
             }
+        }
+    }
+    post {
+        success {
+            echo "pipeline ran successfully"
+        }
+        failure {
+            echo "pipeline failed check logs for errors"
         }
     }
 }
