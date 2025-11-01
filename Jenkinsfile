@@ -30,7 +30,7 @@ pipeline {
         stage("push to dockerhub") {
             steps{
                 echo "pushing the image to dockerhub"
-                sh "docker login -u ${DOCKER_USR} -p ${DOCKER_PWD}"
+                sh "docker login -u ${DOCKER_USR} -p ${DOCKER_PSW}"
                 echo "login successful tagging the image ...."
                 sh "docker image tag ${IMAGE}:latest ${DOCKER_USR}/${IMAGE}"
                 echo "image tagged as: ${DOCKER_USR}/${IMAGE}"
