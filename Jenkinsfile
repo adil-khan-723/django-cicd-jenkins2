@@ -8,7 +8,7 @@ pipeline {
     environment {
         DOCKER = credentials('DockerHub')
         IMAGE = 'notes-app'
-        SERVER_IP = '3.109.211.167'
+        SERVER_IP = '13.200.147.207'
         DIR = '/home/ubuntu/django-cicd-jenkins2'
     }
 
